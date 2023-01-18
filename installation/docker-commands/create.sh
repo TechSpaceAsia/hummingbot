@@ -107,7 +107,11 @@ create_instance () {
  -e CERTS_FOLDER="$CERTS_FOLDER" \
  -e GATEWAY_LOGS_FOLDER="$GATEWAY_LOGS_FOLDER" \
  -e GATEWAY_CONF_FOLDER="$GATEWAY_CONF_FOLDER" \
- hummingbot/hummingbot:$TAG
+ -e MARKET_REST_URL="http://websocket.crypto.local:14100/" \
+ -e TRADING_REST_URL="http://websocket.crypto.local:11100/" \
+ -e WSS_PRIVATE_URL="ws://websocket.crypto.local:21100/" \
+ -e WSS_PUBLIC_URL="ws://websocket.crypto.local:24100/" \
+ techspaceasia/hummingbot:$TAG
 }
 
 prompt_proceed

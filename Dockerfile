@@ -4,8 +4,8 @@ FROM ubuntu:20.04 AS builder
 # Install linux dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y gcc \
-        build-essential pkg-config libusb-1.0 curl git \
-        sudo && \
+    build-essential pkg-config libusb-1.0 curl git \
+    sudo && \
     rm -rf /var/lib/apt/lists/*
 
 # Add hummingbot user and group
@@ -57,10 +57,10 @@ COPY --chown=hummingbot:hummingbot README.md .
 COPY --chown=hummingbot:hummingbot DATA_COLLECTION.md .
 
 # activate hummingbot env when entering the CT
-RUN echo "source /home/hummingbot/miniconda3/etc/profile.d/conda.sh && conda activate $(head -1 setup/environment-linux.yml | cut -d' ' -f2)" >> ~/.bashrc
+RUN echo "source /home/hummingbot/miniconda3/etc/profile.d/conda.sh && conda activate hummingbot" >> ~/.bashrc
 
 # ./compile + cleanup build folder
-RUN /home/hummingbot/miniconda3/envs/$(head -1 setup/environment-linux.yml | cut -d' ' -f2)/bin/python3 setup.py build_ext --inplace -j 8 && \
+RUN /home/hummingbot/miniconda3/envs/hummingbot/bin/python3 setup.py build_ext --inplace -j 8 && \
     rm -rf build/ && \
     find . -type f -name "*.cpp" -delete
 
@@ -95,20 +95,20 @@ RUN groupadd -g 8211 hummingbot && \
 
 # Create sym links
 RUN ln -s /conf /home/hummingbot/conf && \
-  ln -s /logs /home/hummingbot/logs && \
-  ln -s /data /home/hummingbot/data && \
-  ln -s /pmm_scripts /home/hummingbot/pmm_scripts && \
-  ln -s /scripts /home/hummingbot/scripts
+    ln -s /logs /home/hummingbot/logs && \
+    ln -s /data /home/hummingbot/data && \
+    ln -s /pmm_scripts /home/hummingbot/pmm_scripts && \
+    ln -s /scripts /home/hummingbot/scripts
 
 # Create mount points
 RUN mkdir -p /conf /logs /data /pmm_scripts /scripts \
     /gateway-conf \
     /home/hummingbot/.hummingbot-gateway/certs && \
-  chown -R hummingbot:hummingbot /conf /logs /data /pmm_scripts /scripts /gateway-conf \
+    chown -R hummingbot:hummingbot /conf /logs /data /pmm_scripts /scripts /gateway-conf \
     /home/hummingbot/.hummingbot-gateway
 VOLUME /conf /logs /data /pmm_scripts /scripts \
-  /gateway-conf \
-  /home/hummingbot/.hummingbot-gateway/certs
+    /gateway-conf \
+    /home/hummingbot/.hummingbot-gateway/certs
 
 # Pre-populate pmm_scripts/ volume with default pmm_scripts
 COPY --chown=hummingbot:hummingbot pmm_scripts/ pmm_scripts/

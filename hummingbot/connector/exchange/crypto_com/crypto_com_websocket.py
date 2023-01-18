@@ -137,6 +137,7 @@ class CryptoComWebsocket:
             self._websocket = await self.get_shared_client().ws_connect(
                 url=self._WS_URL, heartbeat=self.HEARTBEAT_INTERVAL
             )
+            self.logger().info("Connected to websocket %s", self._WS_URL)
 
             # According to Crypto.com API documentation, it is recommended to add a 1 second delay from when the
             # websocket connection is established and when the first request is sent.

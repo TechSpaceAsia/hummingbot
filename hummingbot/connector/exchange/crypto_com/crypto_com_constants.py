@@ -1,16 +1,16 @@
 # A single source of truth for constant variables related to the exchange
 
 from hummingbot.core.api_throttler.data_types import RateLimit
+from os import getenv
 
 EXCHANGE_NAME = "crypto_com"
-REST_URL = "https://api.crypto.com/"
+MARKET_REST_URL = getenv("MARKET_REST_URL", "https://api.crypto.com/")
+TRADING_REST_URL = getenv("TRADING_REST_URL", "https://api.crypto.com/")
 
-API_VERSION = "v2"
+API_VERSION = "v1"
 
-# WSS_PRIVATE_URL = "wss://stream.crypto.com/v2/user"
-WSS_PRIVATE_URL = "wss://d289dek49b4wqs.cloudfront.net/v2/user"
-# WSS_PUBLIC_URL = "wss://stream.crypto.com/v2/market"
-WSS_PUBLIC_URL = "wss://d10tq1f9ygdz7y.cloudfront.net/v2/market"
+WSS_PRIVATE_URL = getenv("WSS_PRIVATE_URL", "wss://stream.crypto.com/v2/user")
+WSS_PUBLIC_URL = getenv("WSS_PUBLIC_URL", "wss://stream.crypto.com/v2/market")
 
 # REST API ENDPOINTS
 GET_ORDER_BOOK_PATH_URL = "/public/get-book"

@@ -75,6 +75,8 @@ def get_api_reason(code: str) -> str:
 
 
 def get_rest_url(path_url: str, api_version: str = CONSTANTS.API_VERSION) -> str:
+    base_url = CONSTANTS.TRADING_REST_URL if path_url.startswith('private') else CONSTANTS.MARKET_REST_URL
+        
     return f"{CONSTANTS.REST_URL}{api_version}{path_url}"
 
 
